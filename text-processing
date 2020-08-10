@@ -1,0 +1,32 @@
+rg default rules.tf | cut -d= -f2 | sed 's/"//g' | tr -d "[]" |tr ',' '\n'
+rg default rules.tf | cut -d= -f2 | sed 's/"//g' | tr -d "[]"
+default rules.tf | cut -d= -f2 | sed 's/"//g' | tr -d "[]" | tr -d ","
+rg "value  = \"" rules.tf |  cut -d'"' -f 2 | awk 'BEGIN { count = 0} { count += NF } {print count }'
+rg "value  = \"" rules.tf |  cut -d'"' -f 2
+rg "value  =" rules.tf |  cut -d'"' -f 2
+echo one two | awk '{print $1}'
+rg default rules.tf | cut -d= -f2 | sed 's/"//g' | tr -d "[]" | tr -d ","
+
+
+#!/bin/bash
+input="./ui_ips.txt"
+search="./resource_ips.txt"
+
+resourcecount=0
+uiCount=0
+
+while IFS= read -r uiLine 
+do  
+    
+        if grep -Fxq "$uiLine" resource_ips.txt
+            then
+                resourcecount=$((resourcecount += 1))
+            else
+                uiCount=$((uiCount += 1))
+               echo "$uiLine" >> missing-ips.txt
+            fi
+
+echo "$resourcecount"
+echo "$uiCount"
+
+done < "$input"
